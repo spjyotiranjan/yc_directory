@@ -1,18 +1,15 @@
 import {SearchForm} from "@/components/SearchForm";
-import {StartupCard} from "@/components/StartupCard";
+import {StartupCard, StartupTypeCard} from "@/components/StartupCard";
+import {client} from "@/sanity/lib/client";
+import {STARTUP_QUERY} from "@/sanity/lib/query";
+import {sanityFetch, SanityLive} from "@/sanity/lib/live";
 
 export default async function Home({searchParams}: { searchParams: Promise<{ query?: string }> }) {
     const query = (await searchParams).query;
-    const posts = [{
-        _createdAt: new Date(),
-        views: 100,
-        author: {_id: "123", name: "jyotiranjan"},
-        _id: 1,
-        description: "This is a description",
-        image: "https://picsum.photos/300/200",
-        category: "Technology",
-        title: "Technologia"
-    }]
+
+    const params = {search: query || null};
+    const {data: posts} = await sanityFetch({query: STARTUP_QUERY, params});
+
     return (
         <>
             <section className="pink_container">
@@ -36,6 +33,7 @@ export default async function Home({searchParams}: { searchParams: Promise<{ que
                         <p className={"no-result"}> No Startups Found</p>)}
                 </ul>
             </section>
+            <SanityLive/>
         </>
     );
 }
