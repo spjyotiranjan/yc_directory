@@ -3,9 +3,13 @@ import {EyeIcon} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
+import {Author, Startup} from "@/sanity/types";
+
+export type StartupTypeCard = Omit<Startup, "author"> & { author? : Author}
 
 export const StartupCard = ({post}: { post: StartupTypeCard }) => {
-    const {_createdAt, views, author:{_id: authorId,name},title,category,_id,image,description} = post;
+    const {_createdAt, views, author,title,category,_id,image,description} = post;
+    console.log(post)
     return (
         <li className={"startup-card group"}>
             <div className={"flex-between"}>
@@ -18,9 +22,9 @@ export const StartupCard = ({post}: { post: StartupTypeCard }) => {
 
             <div className={"flex-between mt-5 gap-5"}>
                 <div className={"flex-1"}>
-                    <Link href={`/user/${authorId}`}>
+                    <Link href={`/user/${author?._id}`}>
                         <p className={"text-16-medium line-clamp-1"}>
-                            {name}
+                            {author?.name}
                         </p>
                     </Link>
                     <Link href={`/startup/${_id}`}>
@@ -29,8 +33,8 @@ export const StartupCard = ({post}: { post: StartupTypeCard }) => {
                         </h3>
                     </Link>
                 </div>
-                <Link href={`/user/${authorId}`}>
-                    <Image src={"https://picsum.photos/48/48"} alt={"user logo"} width={48} height={48} className={"rounded-full"}/>
+                <Link href={`/user/${author?._id}`}>
+                    <Image src={author?.image || "https://placehold.co/48x48"} alt={"user logo"} width={48} height={48} className={"rounded-full"}/>
                 </Link>
             </div>
 
@@ -39,11 +43,11 @@ export const StartupCard = ({post}: { post: StartupTypeCard }) => {
                     {description}
                 </p>
 
-                <Image src={image} alt={"startup image"} width={400} height={200} className={"startup-card_img"}/>
+                <Image src={image || "https://placehold.co/300x200"} alt={"startup image"} width={400} height={200} className={"startup-card_img"}/>
             </Link>
 
             <div className={"flex-between mt-5 gap-3"}>
-                <Link href={`/?query=${category.toLowerCase()}`}>
+                <Link href={`/?query=${category?.toLowerCase()}`}>
                     <p className={"text-16-medium"}>
                         {category}
                     </p>
