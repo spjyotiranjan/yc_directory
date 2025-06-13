@@ -19,7 +19,7 @@
     "clsx": "^2.1.1",
     "easymde": "^2.20.0",
     "lucide-react": "^0.514.0",
-    "next": "15.3.3",
+    "next": "^15.4.0-canary.81",
     "next-auth": "^5.0.0-beta.28",
     "next-sanity": "^9.8.58-canary.0",
     "react": "^19.0.0",
