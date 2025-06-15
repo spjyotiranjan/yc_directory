@@ -7,7 +7,7 @@ import {Author, Startup} from "@/sanity/types";
 
 export type StartupTypeCard = Omit<Startup, "author"> & { author? : Author}
 
-export const StartupCard = ({post}: { post: StartupTypeCard }) => {
+export const StartupCard = ({post}: { post: any }) => {
     const {_createdAt, views, author,title,category,_id,image,description} = post;
     return (
         <li className={"startup-card group"}>
@@ -33,7 +33,7 @@ export const StartupCard = ({post}: { post: StartupTypeCard }) => {
                     </Link>
                 </div>
                 <Link href={`/user/${author?._id}`}>
-                    <Image src={author?.image || "https://placehold.co/48x48"} alt={"user logo"} width={48} height={48} className={"rounded-full"}/>
+                    <img src={author?.image || "https://placehold.co/48x48"} alt={"user logo"} className={"rounded-full w-[48px] h-auto"}/>
                 </Link>
             </div>
 
