@@ -7,7 +7,10 @@ const nextConfig: NextConfig = {
             protocol: "https",
             hostname: "*"
         }]
-    }
+    },
+    experimental:{
+        ppr: "incremental"
+    },
 };
 
 export default nextConfig;
