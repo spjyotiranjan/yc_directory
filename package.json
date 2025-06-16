@@ -17,6 +17,7 @@
     "@sanity/schema": "^3.92.0",
     "@sanity/types": "^3.92.0",
     "@sanity/vision": "^3.92.0",
+    "@sentry/nextjs": "^9.29.0",
     "@tailwindcss/typography": "^0.5.16",
     "@uiw/react-md-editor": "^4.0.7",
     "class-variance-authority": "^0.7.1",

@@ -30,6 +30,8 @@ const StartupForm = () => {
             await formSchema.parseAsync(formValues)
             const result = await createPitch(prevState, formData, pitch)
             if (result.status === "SUCCESS") {
+                setPitch("")
+                setErrors({});
                 toast.success("Success", {
                     duration: 5000,
                     description: () => {
@@ -51,9 +53,15 @@ const StartupForm = () => {
             }
             setTimeout(() => {
                 router.push(`/startup/${result._id}`)
-            },5000)
+            },4750)
             return result
         } catch (error) {
+            const formValues = {
+                title: formData.get("title") as string,
+                description: formData.get("description") as string,
+                category: formData.get("category") as string,
+                link: formData.get("link") as string,
+            }
             if (error instanceof z.ZodError) {
                 const fieldErrors = error.flatten().fieldErrors;
                 const firstErrorEntry = Object.entries(fieldErrors)[0];
@@ -81,10 +89,10 @@ const StartupForm = () => {
                     },
                 })
 
-                return {...prevState, error: "Validation Error", status: "ERROR"}
+                return {...prevState, error: "Validation Error", status: "ERROR",values: formValues}
             }
 
-            return {...prevState, error: "An unexpected error has occured", status: "ERROR"}
+            return {...prevState, error: "An unexpected error has occurred", status: "ERROR",values: formValues}
         } finally {
 
         }
@@ -97,25 +105,25 @@ const StartupForm = () => {
             <div>
                 <label className={"startup-form_label"} htmlFor={"title"}>Title</label>
                 <Input id={"title"} name={"title"} className={"startup-form_input"} required
-                       placeholder={"Startup Title"}/>
+                       placeholder={"Startup Title"} defaultValue={state?.values?.title ?? ""}/>
                 {errors.title && <p className={"startup-form_error"}>{errors.title}</p>}
             </div>
             <div>
                 <label className={"startup-form_label"} htmlFor={"description"}>Decription</label>
                 <Textarea id={"description"} name={"description"} className={"startup-form_textarea"} required
-                          placeholder={"Startup Description"}/>
+                          placeholder={"Startup Description"} defaultValue={state?.values?.description ?? ""}/>
                 {errors.description && <p className={"startup-form_error"}>{errors.description}</p>}
             </div>
             <div>
                 <label className={"startup-form_label"} htmlFor={"category"}>Category</label>
                 <Input id={"category"} name={"category"} className={"startup-form_input"} required
-                       placeholder={"Startup Category{Tech,Health,Finance,etc.}"}/>
+                       placeholder={"Startup Category{Tech,Health,Finance,etc.}"} defaultValue={state?.values?.category ?? ""}/>
                 {errors.category && <p className={"startup-form_error"}>{errors.category}</p>}
             </div>
             <div>
                 <label className={"startup-form_label"} htmlFor={"link"}>Image</label>
                 <Input id={"link"} name={"link"} className={"startup-form_input"} required
-                       placeholder={"Startup Image(url)"}/>
+                       placeholder={"Startup Image(url)"} defaultValue={state?.values?.link ?? ""}/>
                 {errors.link && <p className={"startup-form_error"}>{errors.link}</p>}
             </div>
             <div data-color-mode="light">
