@@ -15,6 +15,7 @@ Sentry.init({
       colorScheme: "system",
       isNameRequired: true,
       isEmailRequired: true,
+      triggerLabel: ""
     }),
   ],
 

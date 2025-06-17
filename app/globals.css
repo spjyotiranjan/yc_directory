@@ -31,6 +31,10 @@
     --shadow-300: 2px 2px 0px 2px rgb(238, 43, 105);
 }
 
+#sentry-feedback {
+    --inset: auto auto 0 0;
+}
+
 @layer utilities {
 
     .flex-between {

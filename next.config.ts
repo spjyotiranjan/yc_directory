@@ -25,7 +25,7 @@ export default withSentryConfig(nextConfig, {
 // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
 org: "s-p-jyotiranjan-org",
-project: "javascript-nextjs",
+project: "yc_directory",
 
 // Only print logs for uploading source maps in CI
 silent: !process.env.CI,
