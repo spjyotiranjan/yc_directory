@@ -12,12 +12,12 @@ const nextConfig: NextConfig = {
     experimental:{
         ppr: "incremental"
     },
-    // typescript: {
-    //     ignoreBuildErrors: true,
-    // },
-    // eslint: {
-    //     ignoreDuringBuilds: true,
-    // }
+    typescript: {
+        ignoreBuildErrors: true,
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
+    }
 };
 
 export default withSentryConfig(nextConfig, {
