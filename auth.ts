@@ -3,6 +3,7 @@ import GitHub from "next-auth/providers/github"
 import {client} from "@/sanity/lib/client";
 import {AUTHOR_BY_GITHUB_ID_QUERY} from "@/sanity/lib/query";
 import {writeClient} from "@/sanity/lib/writeClient";
+import {JWT, Session} from "@/sanity/manualTypes";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     providers: [GitHub],
@@ -24,17 +25,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return true;
         },
 
-        async jwt ({token,account,profile}){
+        async jwt ({token,account,profile}) : Promise<JWT>{
+            let updatedToken = token as JWT
             if(account && profile){
                 const user = await client.fetch(AUTHOR_BY_GITHUB_ID_QUERY,{id: profile?.id})
-                token.id = user._id
+                updatedToken = {...token,id: user?._id} as JWT
             }
-            return token
+            return updatedToken
         },
 
-        async session({session,token}){
+        async session({session,token}): Promise<Session>{
             return {
-                ...session,id: token.id
+                ...session,id: token.id as string
             }
         }
     }

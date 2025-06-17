@@ -1,11 +1,12 @@
-import {formatDate} from "@/lib/utils";
+import {cn, formatDate} from "@/lib/utils";
 import {EyeIcon} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {Author, Startup} from "@/sanity/types";
+import {Skeleton} from "@/components/ui/skeleton";
 
-export type StartupTypeCard = Omit<Startup, "author"> & { author? : Author}
+export type StartupTypeCard= Omit<Startup, "author"> & { author? : Author}
 
 export const StartupCard = ({post}: { post: any }) => {
     const {_createdAt, views, author,title,category,_id,image,description} = post;
@@ -63,3 +64,14 @@ export const StartupCard = ({post}: { post: any }) => {
         </li>
     );
 };
+
+export const StartupCardSkeleton = () => (
+    <>
+        {[1,2,3,4].map((i) => (
+            <li key={cn('skeleton',i)}>
+                <Skeleton className={"startup-card_skeleton"}/>
+            </li>
+        ))}
+    </>
+
+)

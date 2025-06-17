@@ -1,9 +1,10 @@
 import StartupForm from "@/components/StartupForm";
 import {auth} from "@/auth";
 import {redirect} from "next/navigation";
+import {Session} from "@/sanity/manualTypes";
 
 const StartupCreatePage = async() => {
-    const session = await auth();
+    const session : Session = await auth() as Session;
     if(!session){
         redirect("/");
     }

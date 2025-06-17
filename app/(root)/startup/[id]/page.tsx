@@ -1,4 +1,4 @@
-import {STARTUPBY_ID_QUERY} from "@/sanity/lib/query";
+import {PLAYLIST_BY_SLUG_QUERY, STARTUPBY_ID_QUERY} from "@/sanity/lib/query";
 import {client} from "@/sanity/lib/client";
 import {notFound} from "next/navigation";
 import {formatDate} from "@/lib/utils";
@@ -8,6 +8,7 @@ import markdownit from "markdown-it"
 import {Suspense} from "react";
 import {Skeleton} from "@/components/ui/skeleton";
 import {View} from "@/components/View";
+import {StartupCard, StartupTypeCard} from "@/components/StartupCard";
 const md = markdownit()
 
 
@@ -16,7 +17,11 @@ export const experimental_ppr = true;
 const StartupDetailPage = async ({params}: { params: Promise<{ id: string }> }) => {
     const id = (await params).id;
 
-    const post = await client.fetch(STARTUPBY_ID_QUERY, {id});
+    const [post,{select}] = await Promise.all([
+        client.fetch(STARTUPBY_ID_QUERY, {id}),
+        client.fetch(PLAYLIST_BY_SLUG_QUERY, {slug: "editor-picks"})
+    ])
+
     if (!post) return notFound();
 
     const parsedContent = md.render(post?.pitch || "")
@@ -60,7 +65,17 @@ const StartupDetailPage = async ({params}: { params: Promise<{ id: string }> }) 
                     <View id={id}/>
                 </Suspense>
 
-            {/*    TODO: EDITOR SELECTED STARTUPS*/}
+                {select?.length > 0 && (
+                    <div className={"max-w-4xl mx-auto"}>
+                        <p className={"text-30-semibold"}>Editor Picks</p>
+
+                        <ul className={"mt-7 card_grid-sm"}>
+                            {select?.map((post: StartupTypeCard,index: number)=> (
+                                <StartupCard key={index} post={post}/>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </section>
         </>
     );
